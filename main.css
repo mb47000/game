@@ -1,0 +1,50 @@
+body {
+  min-height: 900px;
+  height: 100vh;
+  background-image: url('maxresdefault.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  overflow: hidden;
+}
+
+
+
+#player {
+
+  position: absolute;
+  left: 80px;
+  bottom: 50px;
+  display: inline-block;
+  z-index: 999;
+  background-color: aquamarine;
+
+}
+
+#perso1 {
+  z-index: 1000;
+  position: relative;
+  min-width: 250%;
+  min-height: 250%;
+  height: 250%;
+  width: 250%;
+}
+
+#hitbox {
+  display: block;
+  position: relative;
+  top: -100px;
+  left: 50px;
+  height: 50px;
+  width: 50px;
+  background-color: red;
+
+}
+
+
+
+
+.anim {
+  transition: -webkit-transform 1s linear;
+  transform: translate(600px, 0px);
+}

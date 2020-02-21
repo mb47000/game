@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <title>v1</title>
+</head>
+
+<body>
+    <div class="" id="player">
+        <img src="akuma-ts-stance.gif" alt="" id="perso1">
+        <div id="hitbox"></div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+
+    <script>
+        (function ($) {
+            $.fn.Right = function () {
+                return this.parent().outerWidth() - this.position().left + this.outerWidth();
+            };
+        })(jQuery);
+
+
+        direction = "right"
+
+        function perso2(e) {
+            clearInterval(run)
+            if (direction == 'right') {
+                $('#perso1').attr("src", "akuma-ts-stance.gif")
+            } else {
+                $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+            }
+
+            $(document).on("keypress", perso1)
+            $(document).off("keyup", perso2);
+        }
+
+        function perso1(e) {
+
+            switch (e.which) {
+
+                case 100: // combos
+                    if (direction == 'right') {
+                        $('#perso1').attr("src", "akuma-gem-combo.gif")
+                    } else {
+                        $('#perso1').attr("src", "akuma-gem-combo-reverse.gif")
+
+                    }
+
+                    $(document).off("keypress", perso1);
+                    setTimeout(function () {
+                        if (direction == 'right') {
+                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                        } else {
+                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        }
+                        $(document).on("keypress", perso1)
+                    }, 1800);
+                    break;
+
+                case 115: // air hado
+                    if (direction == 'right') {
+                        $('#perso1').attr("src", "akuma-gem-double.gif")
+                        $('#perso1').css({
+                            top: 65,
+                            left: 10
+                        });
+                    } else {
+                        $('#perso1').attr("src", "akuma-gem-double-reverse.gif")
+                    }
+
+                    $(document).off("keypress", perso1);
+                    setTimeout(function () {
+                        if (direction == 'right') {
+                            $('#perso1').css({
+                                top: '',
+                                left: ''
+                            });
+                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                        } else {
+                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        }
+                        $(document).on("keypress", perso1)
+                    }, 1380);
+                    break;
+
+                case 113: // hado
+                    if (direction == 'right') {
+                        $('#perso1').attr("src", "akuma-gem-hadoken.gif")
+                    } else {
+                        
+                        $('#perso1').attr("src", "akuma-gem-hadoken-reverse.gif");
+                        $('#perso1').css('right', '360px');
+                    }
+
+                    $(document).off("keypress", perso1);
+                    $("#hitbox").addClass('anim');
+                    setTimeout(function () {
+                        if (direction == 'right') {
+                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                        } else {
+                            $('#perso1').css('right', '')
+                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        }
+                        $(document).on("keypress", perso1)
+                        $("#hitbox").removeClass('anim');
+                        $('#hitbox').css('left', '50px');
+                    }, 1140);
+                    break;
+
+                case 102: // axe kick
+                    if (direction == 'right') {
+                        $('#perso1').attr("src", "akuma-gem-axekick.gif")
+                    } else {
+                        $('#perso1').attr("src", "akuma-gem-axekick-reverse.gif")
+                    }
+
+                    $(document).off("keypress", perso1);
+                    setTimeout(function () {
+                        if (direction == 'right') {
+                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                        } else {
+                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        }
+                        $(document).on("keypress", perso1)
+                    }, 1040);
+                    break;
+
+
+                case 103: // ishun sengeki
+                    if (direction == 'right') {
+                        $('#perso1').attr("src", "akuma-gem-super4.gif")
+                        $('#perso1').css({
+                            top: 65,
+                            left: 0
+                        });
+
+
+                    } else {
+                        $('#perso1').attr("src", "akuma-gem-super4-reverse.gif")
+                    }
+
+                    $(document).off("keypress", perso1);
+                    setTimeout(function () {
+                        if (direction == 'right') {
+                            $('#perso1').css({
+                                top: 0,
+                                left: 0
+                            });
+                            var position = $('#player').position();
+                            var left = (position.left + 140) + 'px';
+                            $('#player').css("left", left)
+                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                        } else {
+                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        }
+                        $(document).on("keypress", perso1)
+                    }, 6240);
+                    break;
+
+                case 54: // course droite
+                    if (direction = 'left') {
+                        var pos = ($('#player').position())
+                        var newPosistion = pos.left;
+                        $("#player").css({
+                            left: newPosistion + 'px',
+                            right: "auto"
+                        })
+                    }
+                        direction = "right";
+                        $('#perso1').attr("src", "akuma-gem-running.gif")
+                        $(document).off("keypress", perso1);
+                        $(document).on("keyup", perso2)
+
+                        run = setInterval(function () {
+
+                            var left;
+                            var position = $('#player').position();
+                            if ((position.left + 300) >= $("body").css('width').slice(0, -2)) {
+                                left = (position.left) + 'px';
+                            } else {
+                                left = (position.left + 5) + 'px';
+                            }
+
+                            $('#player').css("left", left)
+                        }, 10)
+
+                        break;
+
+                        case 52: // course  gauche
+                            if (direction = 'right') {
+                                var pos = ($('#player').position())
+                                var newPosistion = ($("body").css('width').slice(0, -2) - (pos.left)) - $("#player")
+                                    .css(
+                                        'width').slice(0, -2);
+                                $("#player").css({
+                                    left: 'auto',
+                                    right: newPosistion + 'px'
+                                })
+                            }
+                        direction = "left";
+                        $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                        $('#perso1').attr("src", "akuma-gem-running-rev.gif")
+                        $(document).off("keypress", perso1);
+                        $(document).on("keyup", perso2)
+
+                        run = setInterval(function () {
+
+                            if ((parseInt($("#player").css('right').slice(0, -2)) + 250) >= $("body").css(
+                                    'width').slice(0, -2)) {
+                                right = parseInt($("#player").css('right').slice(0, -2)) + 'px';
+                            } else {
+                                right = (((parseInt($("#player").css('right').slice(0, -2)) + 5)).toString() +
+                                    'px');
+                            }
+                            $('#player').css("right", right)
+                        }, 10)
+
+                        break;
+
+                        default:
+                        break;
+                    }
+            }
+
+            $(document).on("keypress", perso1)
+    </script>
+
+</body>
+
+</html>
