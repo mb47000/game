@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="animate.css">
     <title>v1</title>
 </head>
 
 <body>
     <div class="" id="player">
-        <img src="akuma-ts-stance.gif" alt="" id="perso1">
+        <img src="sprits/akuma/akuma-ts-stance.gif" alt="" id="perso1">
         <div id="hitbox"></div>
+    </div>
+    <div>
+        <img src="sprits/dan/ezgif.com-reverse.gif" alt="" class="pnj" id="perso2">
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -29,6 +33,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+    <script src="jquery-collision.min.js"></script>
 
     <script>
         (function ($) {
@@ -38,14 +43,35 @@
         })(jQuery);
 
 
+
+
+        //     function showOverlap(event,ui)
+        //   {
+        //       $(".overlap").remove();
+        //     var overlap = $("#hitbox").collision( ".pnj", { as: "<div/>" } );
+        //     overlap.addClass("overlap").appendTo("body");
+        //     var breakable = $("#player").collision( ".breakable" ); // no "as", so we get the things we collided with instead of new div's
+        //     breakable.remove();
+        //   }
+        //   $(function() {
+        //         $( ".draggable" ).each(function(){$(this).draggable({ containment: "#board" });});
+        //         $( ".draggable" ).each(function(){$(this).bind("dragstart",showOverlap);})
+        //         $( ".draggable" ).each(function(){$(this).bind("dragstop", showOverlap);})
+        //         $( ".draggable" ).each(function(){$(this).bind("drag",     showOverlap);})
+        //   });
+
+
+
+
+
         direction = "right"
 
         function perso2(e) {
             clearInterval(run)
             if (direction == 'right') {
-                $('#perso1').attr("src", "akuma-ts-stance.gif")
+                $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
             } else {
-                $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
             }
 
             $(document).on("keypress", perso1)
@@ -58,18 +84,18 @@
 
                 case 100: // combos
                     if (direction == 'right') {
-                        $('#perso1').attr("src", "akuma-gem-combo.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-combo.gif")
                     } else {
-                        $('#perso1').attr("src", "akuma-gem-combo-reverse.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-combo-reverse.gif")
 
                     }
 
                     $(document).off("keypress", perso1);
                     setTimeout(function () {
                         if (direction == 'right') {
-                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
                         } else {
-                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
                         }
                         $(document).on("keypress", perso1)
                     }, 1800);
@@ -77,13 +103,13 @@
 
                 case 115: // air hado
                     if (direction == 'right') {
-                        $('#perso1').attr("src", "akuma-gem-double.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-double.gif")
                         $('#perso1').css({
                             top: 65,
                             left: 10
                         });
                     } else {
-                        $('#perso1').attr("src", "akuma-gem-double-reverse.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-double-reverse.gif")
                     }
 
                     $(document).off("keypress", perso1);
@@ -93,9 +119,9 @@
                                 top: '',
                                 left: ''
                             });
-                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
                         } else {
-                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
                         }
                         $(document).on("keypress", perso1)
                     }, 1380);
@@ -103,21 +129,45 @@
 
                 case 113: // hado
                     if (direction == 'right') {
-                        $('#perso1').attr("src", "akuma-gem-hadoken.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-hadoken.gif")
                     } else {
-                        
-                        $('#perso1').attr("src", "akuma-gem-hadoken-reverse.gif");
+
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-hadoken-reverse.gif");
                         $('#perso1').css('right', '360px');
                     }
+
+                    var persoHits = [];
+
+                    var timeBox = setInterval(() => {
+
+                        if ($("#hitbox").collision(".pnj")[0] != undefined) {
+                            var idPerso = $("#hitbox").collision(".pnj")[0].id;
+                            if (persoHits.indexOf(idPerso) >= 0) {
+                                ;
+                            } else {
+                                persoHits.push(idPerso);
+                                $('#' + idPerso).attr("src", "sprits/dan/dan-ahhh.gif");
+                                $('#' + idPerso).addClass('animated faster flash').one('animationend', function () {
+                                    $(this).removeClass('animated faster flash');
+                                    $('#' + idPerso).attr("src", "sprits/dan/ezgif.com-reverse.gif");
+                                });
+
+                                console.log('done')
+                            }
+                            console.log(persoHits);
+                        }
+
+                    }, 10);
 
                     $(document).off("keypress", perso1);
                     $("#hitbox").addClass('anim');
                     setTimeout(function () {
                         if (direction == 'right') {
-                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
+                            clearInterval(timeBox)
                         } else {
                             $('#perso1').css('right', '')
-                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
                         }
                         $(document).on("keypress", perso1)
                         $("#hitbox").removeClass('anim');
@@ -127,17 +177,17 @@
 
                 case 102: // axe kick
                     if (direction == 'right') {
-                        $('#perso1').attr("src", "akuma-gem-axekick.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-axekick.gif")
                     } else {
-                        $('#perso1').attr("src", "akuma-gem-axekick-reverse.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-axekick-reverse.gif")
                     }
 
                     $(document).off("keypress", perso1);
                     setTimeout(function () {
                         if (direction == 'right') {
-                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
                         } else {
-                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
                         }
                         $(document).on("keypress", perso1)
                     }, 1040);
@@ -146,7 +196,7 @@
 
                 case 103: // ishun sengeki
                     if (direction == 'right') {
-                        $('#perso1').attr("src", "akuma-gem-super4.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-super4.gif")
                         $('#perso1').css({
                             top: 65,
                             left: 0
@@ -154,7 +204,7 @@
 
 
                     } else {
-                        $('#perso1').attr("src", "akuma-gem-super4-reverse.gif")
+                        $('#perso1').attr("src", "sprits/akuma/akuma-gem-super4-reverse.gif")
                     }
 
                     $(document).off("keypress", perso1);
@@ -167,9 +217,9 @@
                             var position = $('#player').position();
                             var left = (position.left + 140) + 'px';
                             $('#player').css("left", left)
-                            $('#perso1').attr("src", "akuma-ts-stance.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance.gif")
                         } else {
-                            $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
+                            $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
                         }
                         $(document).on("keypress", perso1)
                     }, 6240);
@@ -184,63 +234,63 @@
                             right: "auto"
                         })
                     }
-                        direction = "right";
-                        $('#perso1').attr("src", "akuma-gem-running.gif")
-                        $(document).off("keypress", perso1);
-                        $(document).on("keyup", perso2)
+                    direction = "right";
+                    $('#perso1').attr("src", "sprits/akuma/akuma-gem-running.gif")
+                    $(document).off("keypress", perso1);
+                    $(document).on("keyup", perso2)
 
-                        run = setInterval(function () {
+                    run = setInterval(function () {
 
-                            var left;
-                            var position = $('#player').position();
-                            if ((position.left + 300) >= $("body").css('width').slice(0, -2)) {
-                                left = (position.left) + 'px';
-                            } else {
-                                left = (position.left + 5) + 'px';
-                            }
+                        var left;
+                        var position = $('#player').position();
+                        if ((position.left + 300) >= $("body").css('width').slice(0, -2)) {
+                            left = (position.left) + 'px';
+                        } else {
+                            left = (position.left + 5) + 'px';
+                        }
 
-                            $('#player').css("left", left)
-                        }, 10)
+                        $('#player').css("left", left)
+                    }, 10)
 
-                        break;
+                    break;
 
-                        case 52: // course  gauche
-                            if (direction = 'right') {
-                                var pos = ($('#player').position())
-                                var newPosistion = ($("body").css('width').slice(0, -2) - (pos.left)) - $("#player")
-                                    .css(
-                                        'width').slice(0, -2);
-                                $("#player").css({
-                                    left: 'auto',
-                                    right: newPosistion + 'px'
-                                })
-                            }
-                        direction = "left";
-                        $('#perso1').attr("src", "akuma-ts-stance-reverse.gif")
-                        $('#perso1').attr("src", "akuma-gem-running-rev.gif")
-                        $(document).off("keypress", perso1);
-                        $(document).on("keyup", perso2)
-
-                        run = setInterval(function () {
-
-                            if ((parseInt($("#player").css('right').slice(0, -2)) + 250) >= $("body").css(
-                                    'width').slice(0, -2)) {
-                                right = parseInt($("#player").css('right').slice(0, -2)) + 'px';
-                            } else {
-                                right = (((parseInt($("#player").css('right').slice(0, -2)) + 5)).toString() +
-                                    'px');
-                            }
-                            $('#player').css("right", right)
-                        }, 10)
-
-                        break;
-
-                        default:
-                        break;
+                case 52: // course  gauche
+                    if (direction = 'right') {
+                        var pos = ($('#player').position())
+                        var newPosistion = ($("body").css('width').slice(0, -2) - (pos.left)) - $("#player")
+                            .css(
+                                'width').slice(0, -2);
+                        $("#player").css({
+                            left: 'auto',
+                            right: newPosistion + 'px'
+                        })
                     }
-            }
+                    direction = "left";
+                    $('#perso1').attr("src", "sprits/akuma/akuma-ts-stance-reverse.gif")
+                    $('#perso1').attr("src", "sprits/akuma/akuma-gem-running-rev.gif")
+                    $(document).off("keypress", perso1);
+                    $(document).on("keyup", perso2)
 
-            $(document).on("keypress", perso1)
+                    run = setInterval(function () {
+
+                        if ((parseInt($("#player").css('right').slice(0, -2)) + 250) >= $("body").css(
+                                'width').slice(0, -2)) {
+                            right = parseInt($("#player").css('right').slice(0, -2)) + 'px';
+                        } else {
+                            right = (((parseInt($("#player").css('right').slice(0, -2)) + 5)).toString() +
+                                'px');
+                        }
+                        $('#player').css("right", right)
+                    }, 10)
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        $(document).on("keypress", perso1)
     </script>
 
 </body>
